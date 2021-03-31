@@ -1,6 +1,15 @@
 # UnrealRPG_CPP
-Making an RPG with unreal engine. These are the C++ files for the same.
+Making an RPG with Unreal Engine.
 
 Following the tutorial series: https://www.youtube.com/playlist?list=PLL0cLF8gjBpqA8DcrhL_O9kD4jsUqhDR6
 
-Porting the work to C++ as I go.
+Porting the work to C++ as I go, to learn Unreal Engine and brush up my C++ skills together.
+
+Requirements to import the following asset packs into the project if downloading it from here: 
+* InfinityBlade Adversaries
+* InfinityBlade Effects
+* InfinityBlade Fire Lands
+* InfinityBlade Grass Lands
+* InfinityBlade Ice Lands
+* InfinityBlade Weapons
+* UE4 Starter Content 
