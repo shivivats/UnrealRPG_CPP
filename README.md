@@ -5,7 +5,7 @@ Following the tutorial series [Creating A Role Playing Game - Unreal Engine 4 Co
 
 Porting the work to C++ as I go, to learn Unreal Engine and brush up my C++ skills simultaneously.
 
-###### Requirements to import the following asset packs into the project if downloading it from here: 
+#### Requirements to import the following asset packs into the project if downloading it from here: 
 * InfinityBlade Adversaries
 * InfinityBlade Effects
 * InfinityBlade Fire Lands
