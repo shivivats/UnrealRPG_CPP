@@ -35,19 +35,13 @@ public:
 	float Health;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Attributes")
-	float HealthRegen;
-
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Attributes")
-	float HealthRate;
+	float HealthRegenAmount;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Attributes")
 	float Mana;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Attributes")
-	float ManaRegen;
-
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Attributes")
-	float ManaRate;
+	float ManaRegenAmount;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Magic")
 	bool bCasting1H;
@@ -93,6 +87,10 @@ protected:
 	UFUNCTION()
 	void ResetAbilityCooldown(float &AbilityCooldown);
 
+	void HealthRegen(float DeltaTime);
+
+	void ManaRegen(float DeltaTime);
+
 
 
 
@@ -124,5 +122,14 @@ public:
 	FORCEINLINE class USpringArmComponent* GetCameraBoom() const { return CameraBoom; }
 	/** Returns FollowCamera subobject **/
 	FORCEINLINE class UCameraComponent* GetFollowCamera() const { return FollowCamera; }
+
+	// Called every frame
+	virtual void Tick(float DeltaTime) override;
+
+	void ModifyHealth(float Modifier);
+
+	void ModifyMana(float Modifier);
+
+	bool IsHealthFull();
 };
 

@@ -52,19 +52,24 @@ ARPGProject_CPPCharacter::ARPGProject_CPPCharacter()
 	// are set in the derived blueprint asset named MyCharacter (to avoid direct content references in C++)
 
 	// Set Attributes
+
+	// Initial Health
 	Health = 0.3f;
 
-	HealthRegen = 0.01f;
-	HealthRate = 1.f;
+	// Regen this much health per second
+	HealthRegenAmount = 0.01f;
 
+	// Initial Mana
 	Mana = 0.7f;
 
-	ManaRegen = 0.01f;
-	ManaRate = 1.f;
+	// Regen this much mana per second
+	ManaRegenAmount = 0.01f;
 
+	// Initially we are not casting anything
 	bCasting1H = false;
 	bCasting1HCombat = false;
 	
+	// Initially abilities are off cooldown 
 	Ability1Cooldown = 1.f;
 	Ability2Cooldown = 1.f;
 
@@ -85,7 +90,6 @@ void ARPGProject_CPPCharacter::SetupPlayerInputComponent(class UInputComponent* 
 	PlayerInputComponent->BindAction("Ability1", IE_Pressed, this, &ARPGProject_CPPCharacter::Ability1_Heal);
 	PlayerInputComponent->BindAction("Ability2", IE_Pressed, this, &ARPGProject_CPPCharacter::Ability2_Projectile);
 
-
 	PlayerInputComponent->BindAxis("MoveForward", this, &ARPGProject_CPPCharacter::MoveForward);
 	PlayerInputComponent->BindAxis("MoveRight", this, &ARPGProject_CPPCharacter::MoveRight);
 
@@ -103,6 +107,17 @@ void ARPGProject_CPPCharacter::SetupPlayerInputComponent(class UInputComponent* 
 
 	// VR headset functionality
 	PlayerInputComponent->BindAction("ResetVR", IE_Pressed, this, &ARPGProject_CPPCharacter::OnResetVR);
+}
+
+void ARPGProject_CPPCharacter::Tick(float DeltaTime)
+{
+	Super::Tick(DeltaTime);
+
+	// When you multiply something with delta time that value becomes "units per second"
+
+	HealthRegen(DeltaTime);
+
+	ManaRegen(DeltaTime);
 }
 
 
@@ -177,10 +192,10 @@ void ARPGProject_CPPCharacter::Ability1_Heal()
 				this->GetCharacterMovement()->StopMovementImmediately();
 
 				// Subtract mana cost of spell
-				Mana -= 0.15f;
+				ModifyMana(-0.15f);
 
 				// Actual spell effect here
-				Health += 0.15f;
+				ModifyHealth(0.15f);
 
 				// Character is casting a 1-handed spell
 				bCasting1H = true;
@@ -245,7 +260,7 @@ void ARPGProject_CPPCharacter::Ability2_Projectile()
 				this->GetCharacterMovement()->StopMovementImmediately();
 
 				// Subtract mana cost of spell
-				Mana -= 0.15f;
+				ModifyMana(-0.15f);
 
 				// Character is casting a 1-handed combat spell
 				bCasting1HCombat = true;
@@ -328,7 +343,63 @@ void ARPGProject_CPPCharacter::ResetAbilityCooldown(float &AbilityCooldown)
 	}
 	else
 	{
+		//AbilityCooldown = 1f;
 		// if it has reached 1 then we just clear this timer handle to stop it
 		GetWorldTimerManager().ClearTimer(AbilityCooldownTimerHandle);
+	}
+}
+
+void ARPGProject_CPPCharacter::HealthRegen(float DeltaTime)
+{
+	if (Health < 1.f)
+	{
+		ModifyHealth(DeltaTime * HealthRegenAmount);
+	}
+}
+
+void ARPGProject_CPPCharacter::ManaRegen(float DeltaTime)
+{
+	if (Mana < 1.f)
+	{
+		ModifyMana(DeltaTime * ManaRegenAmount);
+	}
+}
+
+void ARPGProject_CPPCharacter::ModifyHealth(float Modifier)
+{
+	Health += Modifier;
+	if (Health > 1.f)
+	{
+		Health = 1.f;
+	}
+	if (Health < 0.f)
+	{
+		Health = 0.f;
+	}
+
+}
+
+void ARPGProject_CPPCharacter::ModifyMana(float Modifier)
+{
+	Mana += Modifier;
+	if (Mana > 1.f)
+	{
+		Mana = 1.f;
+	}
+	if (Mana < 0.f)
+	{
+		Mana = 0.f;
+	}
+}
+
+bool ARPGProject_CPPCharacter::IsHealthFull()
+{
+	if (Health == 1.f)
+	{
+		return true;
+	}
+	else 
+	{
+		return false;
 	}
 }
