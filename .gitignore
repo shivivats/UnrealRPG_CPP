@@ -72,3 +72,10 @@ Plugins/*/Intermediate/*
 
 # Cache files for the editor to use
 DerivedDataCache/*
+
+# Content files that shouldnt be updated bc they're too big and can be obtained from the asset store anyways
+Content/InfinityBlade*
+Content/StarterContent/*
+Content/Collections/*
+Content/Developers/*
+Content/Geometry/*
