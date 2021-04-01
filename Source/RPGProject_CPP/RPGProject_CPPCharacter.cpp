@@ -326,7 +326,7 @@ void ARPGProject_CPPCharacter::ResetCastingState(bool &bCastingState)
 	// then we set the movement mode to walking to enable movement again
 	GetCharacterMovement()->SetMovementMode(MOVE_Walking);
 
-	UE_LOG(LogTemp, Warning, TEXT("bool timer run"));
+	//UE_LOG(LogTemp, Warning, TEXT("bool timer run"));
 
 	// clear the timer bc we only wanna run this function once
 	//GetWorldTimerManager().ClearTimer(CastingStateTimerHandle);

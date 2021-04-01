@@ -15,13 +15,13 @@ public:
 	// Sets default values for this actor's properties
 	AFireboltProjectile();
 
-	UPROPERTY(EditAnywhere, Category="Components")
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Components")
 	class UParticleSystemComponent* ProjectileParticles;
 
-	UPROPERTY(EditAnywhere, Category = "Components")
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components")
 	class UProjectileMovementComponent* ProjectileMovement;
 
-	UPROPERTY(EditAnywhere, Category = "Components")
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components")
 	class USphereComponent* ProjectileCollision;
 
 

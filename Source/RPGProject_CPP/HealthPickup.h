@@ -15,11 +15,11 @@ public:
 	// Sets default values for this actor's properties
 	AHealthPickup();
 
-	UPROPERTY(EditAnywhere, Category = "Components")
+	UPROPERTY(VisibleAnywhere, Category = "Components")
 	class UParticleSystemComponent* PickupParticles;
 
 
-	UPROPERTY(EditAnywhere, Category = "Components")
+	UPROPERTY(VisibleAnywhere, Category = "Components")
 	class UBoxComponent* PickupCollision;
 
 	UPROPERTY(EditAnywhere, Category = "Effects")

@@ -17,7 +17,8 @@ AHealthPickup::AHealthPickup()
 	// Particle System component, set from blueprint
 	PickupParticles = CreateDefaultSubobject<UParticleSystemComponent>("PickupParticles");
 
-	SetRootComponent(PickupParticles);
+	//tRootComponent(PickupParticles);
+	RootComponent = PickupParticles;
 
 	// Sphere Collision component
 	PickupCollision = CreateDefaultSubobject<UBoxComponent>("PickupCollision");
@@ -33,16 +34,10 @@ void AHealthPickup::BeginPlay()
 	//PickupCollision->OnComponentBeginOverlap.AddDynamic(this, &AHealthPickup::BeginOverlap);
 	OnActorBeginOverlap.AddDynamic(this, &AHealthPickup::BeginOverlap);	
 
-
-
-	PickupCollision->SetupAttachment(PickupParticles);
-	PickupCollision->SetRelativeLocation(FVector(0.f, 0.f, 0.f));
+	//PickupCollision->SetupAttachment(PickupParticles);
+	//PickupCollision->SetRelativeLocation(FVector(0.f, 0.f, 0.f));
 
 	PickupCollision->SetWorldScale3D(FVector(1.8f, 1.8f, 1.8f));
-
-	//PickupCollision->SetRelativeLocation(FVector(0.f, 0.f, 0.f));
-	//PickupCollision->SetRelativeRotation(FRotator(0.f, 0.f, 0.f));
-	//PickupCollision->SetRelativeScale3D(FVector(1.8f, 1.8f, 1.8f));
 }
 
 // Called every frame
@@ -54,7 +49,7 @@ void AHealthPickup::Tick(float DeltaTime)
 
 void AHealthPickup::BeginOverlap(AActor* OverlappedActor, AActor* OtherActor)
 {
-	UE_LOG(LogTemp, Warning, TEXT("overlapped with something"));
+	//UE_LOG(LogTemp, Warning, TEXT("overlapped with something"));
 
 	ARPGProject_CPPCharacter* PlayerCharacter = Cast<ARPGProject_CPPCharacter>(OtherActor);
 	

@@ -14,6 +14,8 @@ AFireboltProjectile::AFireboltProjectile()
 
 	// Particle System component, set from blueprint
 	ProjectileParticles = CreateDefaultSubobject<UParticleSystemComponent>("ProjectileParticles");
+	//SetRootComponent(ProjectileParticles);
+
 	ProjectileParticles->SetRelativeLocation(FVector(4.f, 0.f, -14.f));
 
 	// Sphere Collision component
@@ -27,13 +29,18 @@ AFireboltProjectile::AFireboltProjectile()
 	ProjectileMovement->MaxSpeed = 1500.f;
 	ProjectileMovement->ProjectileGravityScale = 0.f;
 
+
+
 }
 
 // Called when the game starts or when spawned
 void AFireboltProjectile::BeginPlay()
 {
 	Super::BeginPlay();
-	
+
+	RootComponent = ProjectileParticles;
+
+	ProjectileCollision->AttachTo(GetRootComponent());	
 }
 
 // Called every frame
