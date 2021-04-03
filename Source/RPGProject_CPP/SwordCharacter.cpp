@@ -129,6 +129,15 @@ void ASwordCharacter::BeginPlay()
 {
 	Super::BeginPlay();
 
+	if(SwordHUDWidget)
+	{ 
+		UUserWidget* SwordHUD = CreateWidget<UUserWidget>(GetWorld(),SwordHUDWidget, FName("SwordHUD"));	
+		if (SwordHUD)
+		{
+			SwordHUD->AddToViewport();
+		}
+	}
+
 	FTransform EffectTransform;
 	EffectTransform = GetMesh()->GetSocketTransform("WeaponHold");
 
@@ -140,9 +149,6 @@ void ASwordCharacter::BeginPlay()
 			SpawnedSword->AttachToComponent(GetMesh(), FAttachmentTransformRules::SnapToTargetIncludingScale, FName("WeaponHold"));
 		}
 	}
-
-
-
 }
 
 void ASwordCharacter::OnResetVR()
@@ -243,12 +249,11 @@ void ASwordCharacter::Ability1_Slash()
 
 				// timer params go: InRate, InbLoop, InFirstDelay
 				// we want this to run once per second after a 2 second delay, and not repeat
-				GetWorldTimerManager().SetTimer(CastingStateTimerHandle, ResetCastingStateDel, 1.f, false, 1.5f);
+				GetWorldTimerManager().SetTimer(CastingStateTimerHandle, ResetCastingStateDel, 1.f, false, 1.45f);
 
 				// similarly, we set up another timer but this one for the ability cooldown
 				FTimerDelegate ResetAbilityCooldownDel;
 
-				//ResetAbilityCooldownDel = FTimerDelegate::CreateUObject(this, &AMagicCharacter::ResetAbilityCooldown, Ability1Cooldown);
 				ResetAbilityCooldownDel = FTimerDelegate::CreateLambda([=]()
 					{
 						ResetAbilityCooldown(Ability1Cooldown);

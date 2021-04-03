@@ -24,6 +24,11 @@ public:
 	UPROPERTY(EditAnywhere, Category = "Drops")
 	TSubclassOf<class ALootPickup> LootPickupActor;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Attributes")
+	bool bCanBeHitWithMelee;
+
+	FTimerHandle CanBeHitHandle;
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
@@ -39,7 +44,5 @@ public:
 
 	void Death();
 
-	// Overlap function
-	UFUNCTION()
-	void BeginOverlap(AActor* OverlappedActor, AActor* OtherActor);
+	void AIHit();
 };

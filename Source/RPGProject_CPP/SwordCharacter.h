@@ -68,6 +68,9 @@ public:
 	FTimerHandle AbilityCooldownTimerHandle;
 
 	UPROPERTY(EditAnywhere, Category = "Magic")
+	TSubclassOf<class UUserWidget> SwordHUDWidget;
+
+	UPROPERTY(EditAnywhere, Category = "Magic")
 	TSubclassOf<class UUserWidget> NoManaWidget;
 
 	UPROPERTY(EditAnywhere, Category = "Weapons")
@@ -122,6 +125,11 @@ protected:
 	/** Handler for when a touch input stops. */
 	void TouchStopped(ETouchIndex::Type FingerIndex, FVector Location);
 
+protected:
+	// APawn interface
+	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
+	// End of APawn interface
+
 public:
 	/** Returns CameraBoom subobject **/
 	FORCEINLINE class USpringArmComponent* GetCameraBoom() const { return CameraBoom; }
@@ -137,7 +145,6 @@ public:
 
 	bool IsHealthFull();
 
-	// Called to bind functionality to input
-	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
+
 
 };

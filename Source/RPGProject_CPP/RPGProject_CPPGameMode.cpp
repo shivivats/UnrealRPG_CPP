@@ -1,7 +1,6 @@
 // Copyright Epic Games, Inc. All Rights Reserved.
 
 #include "RPGProject_CPPGameMode.h"
-#include "MagicCharacter.h"
 #include "UObject/ConstructorHelpers.h"
 
 ARPGProject_CPPGameMode::ARPGProject_CPPGameMode()

@@ -40,4 +40,6 @@ public:
 	UFUNCTION()
 	void BeginOverlap(AActor* OverlappedActor, AActor* OtherActor);
 
+	
+
 };

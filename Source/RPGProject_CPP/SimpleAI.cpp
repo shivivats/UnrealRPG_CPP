@@ -12,14 +12,14 @@ ASimpleAI::ASimpleAI()
  	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
+	bCanBeHitWithMelee = true;
+
 }
 
 // Called when the game starts or when spawned
 void ASimpleAI::BeginPlay()
 {
 	Super::BeginPlay();
-
-	OnActorBeginOverlap.AddDynamic(this, &ASimpleAI::BeginOverlap);
 	
 }
 
@@ -57,24 +57,19 @@ void ASimpleAI::Death()
 	Destroy();
 }
 
-void ASimpleAI::BeginOverlap(AActor* OverlappedActor, AActor* OtherActor)
+void ASimpleAI::AIHit()
 {
-	AFireboltProjectile* MagicProjectile = Cast<AFireboltProjectile>(OtherActor);
-	UE_LOG(LogTemp, Warning, TEXT("Uhh, something hit"));
+	bCanBeHitWithMelee = false;
+	// Timer delegate and timer handle are used for the timer
+	FTimerDelegate ResetCastingStateDel;
 
+	ResetCastingStateDel = FTimerDelegate::CreateLambda([=]()
+		{
+			bCanBeHitWithMelee = true;
+		});
 
-	if (MagicProjectile != nullptr)
-	{
-		UE_LOG(LogTemp, Warning, TEXT("Uhh, magic missile hit"));
-		FTransform EffectTransform;
-		EffectTransform.SetLocation(MagicProjectile->GetActorLocation());
-		EffectTransform.SetScale3D(FVector(0.5f));
-
-		UGameplayStatics::SpawnEmitterAtLocation(GetWorld(), HitEffect, EffectTransform, true);
-
-		GetWorld()->DestroyActor(MagicProjectile);
-
-		TakeDamage(0.25f);
-	}
+	// we want this to run once per second after a 2 second delay, and not repeat
+	GetWorldTimerManager().SetTimer(CanBeHitHandle, ResetCastingStateDel, 1.f, false, 1.f);
 }
+
 

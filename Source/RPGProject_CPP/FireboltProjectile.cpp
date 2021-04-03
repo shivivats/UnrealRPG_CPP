@@ -5,6 +5,8 @@
 #include "GameFramework/ProjectileMovementComponent.h"
 #include "Particles/ParticleSystemComponent.h"
 #include "Components/SphereComponent.h"
+#include "SimpleAI.h"
+#include "Kismet/GameplayStatics.h"
 
 // Sets default values
 AFireboltProjectile::AFireboltProjectile()
@@ -41,12 +43,38 @@ void AFireboltProjectile::BeginPlay()
 	RootComponent = ProjectileParticles;
 
 	ProjectileCollision->AttachToComponent(GetRootComponent(), FAttachmentTransformRules::KeepRelativeTransform);
+
+	OnActorBeginOverlap.AddDynamic(this, &AFireboltProjectile::BeginOverlap);
 }
 
 // Called every frame
 void AFireboltProjectile::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+
+}
+
+void AFireboltProjectile::BeginOverlap(AActor* OverlappedActor, AActor* OtherActor)
+{
+	ASimpleAI* AIActor = Cast<ASimpleAI>(OtherActor);
+	UE_LOG(LogTemp, Warning, TEXT("Firebolt hit something"));
+
+	if (AIActor != nullptr)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Firebolt hit AI"));
+		FTransform EffectTransform;
+		EffectTransform.SetLocation(GetActorLocation());
+		EffectTransform.SetScale3D(FVector(0.5f));
+
+		if (HitEffect)
+		{
+			UGameplayStatics::SpawnEmitterAtLocation(GetWorld(), HitEffect, EffectTransform, true);
+		}
+
+		AIActor->TakeDamage(0.25f);
+
+		Destroy();
+	}
 
 }
 
