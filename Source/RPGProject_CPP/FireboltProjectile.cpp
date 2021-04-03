@@ -40,7 +40,7 @@ void AFireboltProjectile::BeginPlay()
 
 	RootComponent = ProjectileParticles;
 
-	ProjectileCollision->AttachTo(GetRootComponent());	
+	ProjectileCollision->AttachToComponent(GetRootComponent(), FAttachmentTransformRules::KeepRelativeTransform);
 }
 
 // Called every frame

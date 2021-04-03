@@ -4,7 +4,7 @@
 #include "HealthPickup.h"
 #include "Particles/ParticleSystemComponent.h"
 #include "Components/BoxComponent.h"
-#include "RPGProject_CPPCharacter.h"
+#include "MagicCharacter.h"
 #include "Kismet/GameplayStatics.h"
 #include "Particles/ParticleSystem.h"
 
@@ -23,7 +23,8 @@ AHealthPickup::AHealthPickup()
 	// Sphere Collision component
 	PickupCollision = CreateDefaultSubobject<UBoxComponent>("PickupCollision");
 
-
+	PickupCollision->SetRelativeLocation(FVector(0.f, 0.f, 0.f));
+	PickupCollision->SetWorldScale3D(FVector(1.8f, 1.8f, 1.8f));
 }
 
 // Called when the game starts or when spawned
@@ -34,10 +35,12 @@ void AHealthPickup::BeginPlay()
 	//PickupCollision->OnComponentBeginOverlap.AddDynamic(this, &AHealthPickup::BeginOverlap);
 	OnActorBeginOverlap.AddDynamic(this, &AHealthPickup::BeginOverlap);	
 
-	//PickupCollision->SetupAttachment(PickupParticles);
-	//PickupCollision->SetRelativeLocation(FVector(0.f, 0.f, 0.f));
+	RootComponent = PickupParticles;
 
-	PickupCollision->SetWorldScale3D(FVector(1.8f, 1.8f, 1.8f));
+	PickupCollision->AttachToComponent(GetRootComponent(), FAttachmentTransformRules::KeepRelativeTransform);
+
+
+
 }
 
 // Called every frame
@@ -51,7 +54,7 @@ void AHealthPickup::BeginOverlap(AActor* OverlappedActor, AActor* OtherActor)
 {
 	//UE_LOG(LogTemp, Warning, TEXT("overlapped with something"));
 
-	ARPGProject_CPPCharacter* PlayerCharacter = Cast<ARPGProject_CPPCharacter>(OtherActor);
+	AMagicCharacter* PlayerCharacter = Cast<AMagicCharacter>(OtherActor);
 	
 	if (PlayerCharacter != nullptr)
 	{

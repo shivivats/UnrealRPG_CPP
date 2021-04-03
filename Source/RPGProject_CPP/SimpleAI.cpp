@@ -4,6 +4,7 @@
 #include "SimpleAI.h"
 #include "FireboltProjectile.h"
 #include "Kismet/GameplayStatics.h"
+#include "LootPickup.h"
 
 // Sets default values
 ASimpleAI::ASimpleAI()
@@ -51,7 +52,7 @@ void ASimpleAI::Death()
 	LootTransform.SetLocation(GetMesh()->GetSocketLocation("foot_r"));
 	
 	// Spawn Loot Pickup here
-	//GetWorld()->SpawnActor<AFireboltProjectile>(Ability2Actor, EffectTransform, FActorSpawnParameters());
+	GetWorld()->SpawnActor<ALootPickup>(LootPickupActor, LootTransform, FActorSpawnParameters());
 
 	Destroy();
 }
@@ -67,6 +68,8 @@ void ASimpleAI::BeginOverlap(AActor* OverlappedActor, AActor* OtherActor)
 		UE_LOG(LogTemp, Warning, TEXT("Uhh, magic missile hit"));
 		FTransform EffectTransform;
 		EffectTransform.SetLocation(MagicProjectile->GetActorLocation());
+		EffectTransform.SetScale3D(FVector(0.5f));
+
 		UGameplayStatics::SpawnEmitterAtLocation(GetWorld(), HitEffect, EffectTransform, true);
 
 		GetWorld()->DestroyActor(MagicProjectile);

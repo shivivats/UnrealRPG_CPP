@@ -15,11 +15,14 @@ public:
 	// Sets default values for this character's properties
 	ASimpleAI();
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Attributes")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Attributes")
 	float Health;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Attributes")
 	class UParticleSystem* HitEffect;
+
+	UPROPERTY(EditAnywhere, Category = "Drops")
+	TSubclassOf<class ALootPickup> LootPickupActor;
 
 protected:
 	// Called when the game starts or when spawned
