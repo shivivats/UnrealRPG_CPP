@@ -66,8 +66,8 @@ void ASpellCharacter::Ability1_Heal()
 			if (Mana >= 0.15f)
 			{
 				// Disable movement and stop character as they start to cast spell
-				this->GetCharacterMovement()->DisableMovement();
-				this->GetCharacterMovement()->StopMovementImmediately();
+				//this->GetCharacterMovement()->DisableMovement();
+				//this->GetCharacterMovement()->StopMovementImmediately();
 
 				// Subtract mana cost of spell
 				ModifyMana(-0.15f);
@@ -134,8 +134,8 @@ void ASpellCharacter::Ability2_Projectile()
 			if (Mana >= 0.15f)
 			{
 				// Disable movement and stop character as they start to cast spell
-				this->GetCharacterMovement()->DisableMovement();
-				this->GetCharacterMovement()->StopMovementImmediately();
+				//this->GetCharacterMovement()->DisableMovement();
+				//this->GetCharacterMovement()->StopMovementImmediately();
 
 				// Subtract mana cost of spell
 				ModifyMana(-0.15f);

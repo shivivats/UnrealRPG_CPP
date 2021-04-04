@@ -72,8 +72,8 @@ void ASwordCharacter::Ability1_Slash()
 			if (true)
 			{
 				// Disable movement and stop character as they start to cast spell
-				this->GetCharacterMovement()->DisableMovement();
-				this->GetCharacterMovement()->StopMovementImmediately();
+				//this->GetCharacterMovement()->DisableMovement();
+				//this->GetCharacterMovement()->StopMovementImmediately();
 
 				// Subtract mana cost of spell
 				//ModifyMana(-0.15f);

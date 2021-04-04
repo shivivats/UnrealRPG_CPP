@@ -25,6 +25,8 @@ ASimpleAI::ASimpleAI()
 	PawnSensor->SetPeripheralVisionAngle(45.f);
 	PawnSensor->SightRadius = 900.f;
 
+	Health = 1.f;
+
 }
 
 // Called when the game starts or when spawned

@@ -12,6 +12,8 @@ ASimpleAIController::ASimpleAIController()
 	BehaviorComp = CreateDefaultSubobject<UBehaviorTreeComponent>(TEXT("BehaviorComp"));
 
 	BlackboardComp = CreateDefaultSubobject<UBlackboardComponent>(TEXT("BlackboardComp"));
+
+	BlackboardKey = "Target";
 }
 
 void ASimpleAIController::OnPossess(APawn* PossessedPawn)
@@ -38,7 +40,7 @@ void ASimpleAIController::SetSeenTarget(APawn* SeenPawn)
 	/*
 	if (BlackboardComp)
 	{
-		BlackboardComp->SetValueAsObject(BlackboardKey, Pawn);
+		BlackboardComp->SetValueAsObject(BlackboardKey, SeenPawn);
 	}
 	*/
 }

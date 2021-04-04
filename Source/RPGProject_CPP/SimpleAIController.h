@@ -26,7 +26,7 @@ public:
 
 	/*Blackboard key*/
 	UPROPERTY(EditDefaultsOnly, Category = "AI")
-	FName BlackboardKey = "Target";
+	FName BlackboardKey;
 
 	/*Executes right when the controller possess a Pawn*/
 	virtual void OnPossess(APawn* PossessedPawn) override;
