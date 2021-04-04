@@ -74,7 +74,7 @@ void AWeapon_Sword::BeginOverlap(AActor* OverlappedActor, AActor* OtherActor)
 					}
 					*/
 
-					AIActor->TakeDamage(0.25f);
+					AIActor->ModifyHealth(0.25f);
 					AIActor->AIHit();
 
 				}

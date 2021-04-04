@@ -71,7 +71,7 @@ void AFireboltProjectile::BeginOverlap(AActor* OverlappedActor, AActor* OtherAct
 			UGameplayStatics::SpawnEmitterAtLocation(GetWorld(), HitEffect, EffectTransform, true);
 		}
 
-		AIActor->TakeDamage(0.25f);
+		AIActor->ModifyHealth(0.25f);
 
 		Destroy();
 	}

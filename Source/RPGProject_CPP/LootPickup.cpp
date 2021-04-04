@@ -4,8 +4,7 @@
 #include "LootPickup.h"
 #include "Particles/ParticleSystemComponent.h"
 #include "Components/BoxComponent.h"
-#include "SpellCharacter.h"
-#include "SwordCharacter.h"
+#include "RPGCharacter.h"
 #include "Kismet/GameplayStatics.h"
 #include "Particles/ParticleSystem.h"
 #include "Components/StaticMeshComponent.h"
@@ -56,30 +55,16 @@ void ALootPickup::Tick(float DeltaTime)
 
 void ALootPickup::BeginOverlap(AActor* OverlappedActor, AActor* OtherActor)
 {
-	ASpellCharacter* PlayerSpellCharacter = Cast<ASpellCharacter>(OtherActor);
+	ARPGCharacter* PlayerCharacter = Cast<ARPGCharacter>(OtherActor);
 
-	if (PlayerSpellCharacter != nullptr)
+	if (PlayerCharacter != nullptr)
 	{
 		FTransform EffectTransform;
-		EffectTransform.SetLocation(PlayerSpellCharacter->GetActorLocation());
+		EffectTransform.SetLocation(PlayerCharacter->GetActorLocation());
 
 		UGameplayStatics::SpawnEmitterAtLocation(GetWorld(), PickupEffect, EffectTransform, true);
 
 		Destroy();
-	}
-	else
-	{
-		ASwordCharacter* PlayerSwordCharacter = Cast<ASwordCharacter>(OtherActor);
-		if (PlayerSwordCharacter != nullptr)
-		{
-			FTransform EffectTransform;
-			EffectTransform.SetLocation(PlayerSwordCharacter->GetActorLocation());
-
-			UGameplayStatics::SpawnEmitterAtLocation(GetWorld(), PickupEffect, EffectTransform, true);
-
-			Destroy();
-		}
-
 	}
 }
 

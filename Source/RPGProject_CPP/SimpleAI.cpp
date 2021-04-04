@@ -5,6 +5,13 @@
 #include "FireboltProjectile.h"
 #include "Kismet/GameplayStatics.h"
 #include "LootPickup.h"
+#include "RPGCharacter.h"
+#include "Perception/PawnSensingComponent.h"
+#include "BehaviorTree/BehaviorTree.h"
+#include "SimpleAIController.h"
+#include "AIController.h"
+#include "AITypes.h"
+
 
 // Sets default values
 ASimpleAI::ASimpleAI()
@@ -14,13 +21,21 @@ ASimpleAI::ASimpleAI()
 
 	bCanBeHitWithMelee = true;
 
+	PawnSensor = CreateDefaultSubobject<UPawnSensingComponent>("PawnSensor");
+	PawnSensor->SetPeripheralVisionAngle(45.f);
+	PawnSensor->SightRadius = 900.f;
+
 }
 
 // Called when the game starts or when spawned
 void ASimpleAI::BeginPlay()
 {
 	Super::BeginPlay();
-	
+	if (PawnSensor)
+	{
+		PawnSensor->OnSeePawn.AddDynamic(this, &ASimpleAI::OnSeePawn);
+		PawnSensor->OnHearNoise.AddDynamic(this, &ASimpleAI::OnHearNoise);	
+	}
 }
 
 // Called every frame
@@ -31,13 +46,13 @@ void ASimpleAI::Tick(float DeltaTime)
 }
 
 // Called to bind functionality to input
-void ASimpleAI::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
-{
-	Super::SetupPlayerInputComponent(PlayerInputComponent);
+//void ASimpleAI::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
+//{
+//	Super::SetupPlayerInputComponent(PlayerInputComponent);
+//
+//}
 
-}
-
-void ASimpleAI::TakeDamage(float Damage)
+void ASimpleAI::ModifyHealth(float Damage)
 {
 	Health -= Damage;
 	if (Health <= 0.f)
@@ -70,6 +85,26 @@ void ASimpleAI::AIHit()
 
 	// we want this to run once per second after a 2 second delay, and not repeat
 	GetWorldTimerManager().SetTimer(CanBeHitHandle, ResetCastingStateDel, 1.f, false, 1.f);
+}
+
+void ASimpleAI::OnHearNoise(APawn* OtherActor, const FVector& Location, float Volume)
+{
+}
+
+void ASimpleAI::OnSeePawn(APawn* OtherPawn)
+{
+
+	ASimpleAIController* AIController = Cast<ASimpleAIController>(GetController());
+	ARPGCharacter* PlayerCharacter = Cast<ARPGCharacter>(OtherPawn);
+
+	if (AIController && PlayerCharacter)
+	{
+		FAIMoveRequest MoveRequest;
+		MoveRequest.SetGoalActor(PlayerCharacter);
+
+		AIController->MoveTo(MoveRequest);
+	}
+		
 }
 
 

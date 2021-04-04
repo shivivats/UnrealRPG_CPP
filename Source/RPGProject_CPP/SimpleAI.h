@@ -14,12 +14,15 @@ class RPGPROJECT_CPP_API ASimpleAI : public ACharacter
 public:
 	// Sets default values for this character's properties
 	ASimpleAI();
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "AI")
+	class UPawnSensingComponent* PawnSensor;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "AI")
+	class UBehaviorTree* BehaviorTree;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Attributes")
 	float Health;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Attributes")
-	class UParticleSystem* HitEffect;
 
 	UPROPERTY(EditAnywhere, Category = "Drops")
 	TSubclassOf<class ALootPickup> LootPickupActor;
@@ -38,11 +41,20 @@ public:
 	virtual void Tick(float DeltaTime) override;
 
 	// Called to bind functionality to input
-	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
+	//virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
-	void TakeDamage(float Damage);
+	void ModifyHealth(float Damage);
 
 	void Death();
 
 	void AIHit();
+
+	//////////////////////////////////////////////////////////////////////////
+	// UPawnSensingComponent Delegates
+
+	UFUNCTION()
+	void OnHearNoise(APawn *OtherActor, const FVector &Location, float Volume);
+
+	UFUNCTION()
+	void OnSeePawn(APawn *OtherPawn);
 };

@@ -4,8 +4,7 @@
 #include "HealthPickup.h"
 #include "Particles/ParticleSystemComponent.h"
 #include "Components/BoxComponent.h"
-#include "SpellCharacter.h"
-#include "SwordCharacter.h"
+#include "RPGCharacter.h"
 #include "Kismet/GameplayStatics.h"
 #include "Particles/ParticleSystem.h"
 
@@ -55,37 +54,19 @@ void AHealthPickup::BeginOverlap(AActor* OverlappedActor, AActor* OtherActor)
 {
 	//UE_LOG(LogTemp, Warning, TEXT("overlapped with something"));
 
-	ASpellCharacter* PlayerSpellCharacter = Cast<ASpellCharacter>(OtherActor);
+	ARPGCharacter* PlayerCharacter = Cast<ARPGCharacter>(OtherActor);
 	
-	if (PlayerSpellCharacter != nullptr)
+	if (PlayerCharacter != nullptr)
 	{
-		if (!PlayerSpellCharacter->IsHealthFull())
+		if (!PlayerCharacter->IsHealthFull())
 		{
-			PlayerSpellCharacter->ModifyHealth(0.2f);
+			PlayerCharacter->ModifyHealth(0.2f);
 
 			FTransform EffectTransform;
-			EffectTransform.SetLocation(PlayerSpellCharacter->GetActorLocation());
+			EffectTransform.SetLocation(PlayerCharacter->GetActorLocation());
 			UGameplayStatics::SpawnEmitterAtLocation(GetWorld(), PickupEffect, EffectTransform, true);
 
 			Destroy();
-		}
-		
-	}
-	else
-	{
-		ASwordCharacter* PlayerSwordCharacter = Cast<ASwordCharacter>(OtherActor);
-		if (PlayerSwordCharacter != nullptr)
-		{
-			if (!PlayerSwordCharacter->IsHealthFull())
-			{
-				PlayerSwordCharacter->ModifyHealth(0.2f);
-
-				FTransform EffectTransform;
-				EffectTransform.SetLocation(PlayerSwordCharacter->GetActorLocation());
-				UGameplayStatics::SpawnEmitterAtLocation(GetWorld(), PickupEffect, EffectTransform, true);
-
-				Destroy();
-			}
 		}
 	}
 }
